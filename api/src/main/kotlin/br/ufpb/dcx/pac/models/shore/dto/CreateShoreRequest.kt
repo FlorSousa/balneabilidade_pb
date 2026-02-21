@@ -11,6 +11,7 @@ data class CreateShoreRequest(
 ) {
     fun toEntity(): Shore {
         return Shore(
+            null,
             name = this.nome,
             city = this.cidade,
         )
