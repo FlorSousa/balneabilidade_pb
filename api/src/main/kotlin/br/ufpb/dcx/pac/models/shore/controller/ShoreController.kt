@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping("/v1/shores")
@@ -34,7 +35,10 @@ class ShoreController(val shoreService: ShoreService) {
 
     @PostMapping
     fun createShore(@RequestBody @Valid request: CreateShoreRequest): ResponseEntity<Void> {
-        shoreService.createShore(request)
-        return ResponseEntity.ok().build()
+        val response = shoreService.createShore(request)
+        val uri = UriComponentsBuilder
+            .fromPath("/v1/shores/{id}")
+            .buildAndExpand(response.id).toUri()
+        return ResponseEntity.created(uri).build()
     }
 }

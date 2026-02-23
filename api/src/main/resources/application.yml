@@ -1,6 +1,18 @@
 spring:
   application:
     name: api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/balneabilidade
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
 
 # swagger-ui custom path
 springdoc:
@@ -9,4 +21,10 @@ springdoc:
 
 logging:
   level:
-    root: DEBUG
+    br.ufpb.dcx.pac: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

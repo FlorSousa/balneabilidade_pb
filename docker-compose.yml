@@ -1,0 +1,34 @@
+services:
+  balneabilidade-db:
+    image: postgres:17.8-alpine3.22
+    environment:
+      POSTGRES_DB: balneabilidade
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - balneabilidade-postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  balneabilidade-api:
+    build: ./api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://balneabilidade-db:5432/balneabilidade
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - balneabilidade-db
+    networks:
+      - balneabilidade-postgres
+
+networks:
+  balneabilidade-postgres:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,9 +1,8 @@
 package br.ufpb.dcx.pac.models.measurement.service
 
-import br.ufpb.dcx.pac.exceptionhandler.exceptions.EntityNotFound
+import br.ufpb.dcx.pac.exceptionhandler.exceptions.EntityNotFoundException
 import br.ufpb.dcx.pac.models.measurement.dto.MeasureCreateRequest
 import br.ufpb.dcx.pac.models.measurement.dto.MeasurementResponse
-import br.ufpb.dcx.pac.models.measurement.model.Measurement
 import br.ufpb.dcx.pac.models.measurement.repository.MeasurementRepository
 import br.ufpb.dcx.pac.models.shore.repository.ShoreRepository
 import org.springframework.data.domain.Page
@@ -21,13 +20,13 @@ class MeasurementService(
 
     fun getMeasurementById(id: Long): MeasurementResponse {
         val measurement = measurementRepository.findById(id)
-            .orElseThrow { EntityNotFound("Measurement not found with id: $id") }
+            .orElseThrow { EntityNotFoundException("Measurement not found with id: $id") }
         return measurement.toResponse()
     }
 
     fun createMeasurement(request: MeasureCreateRequest): MeasurementResponse {
         val shore = shoreRepository.findShoreById(request.shoreId)
-            .orElseThrow { EntityNotFound("Shore not found with id: ${request.shoreId}") }
+            .orElseThrow { EntityNotFoundException("Shore not found with id: ${request.shoreId}") }
 
         val measurement = request.toEntity()
         measurement.shore = shore
