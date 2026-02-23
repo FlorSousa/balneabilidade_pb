@@ -13,7 +13,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "praia")
-class Shore (
+class Shore(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
@@ -21,12 +21,17 @@ class Shore (
     var name: String?,
     @Column(name = "cidade")
     var city: String?,
-    @OneToMany(mappedBy = "shore", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(
+        mappedBy = "shore",
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true
+    )
     var measurements: MutableList<Measurement> = mutableListOf()
 ) {
 
     fun toResponse(): ShoreResponse {
-        return ShoreResponse(id, name, city)
+        return ShoreResponse(
+            id = id, nome = name, cidade = city, medicoes = measurements.map { it.toResponse() })
     }
 
 }

@@ -6,8 +6,6 @@ data class MeasurementResponse(
     val id: Long?,
     val shoreId: Long?,
     val readingDate: LocalDateTime?,
-    val quality: Boolean?,
+    val properForBathing: Boolean?,
     val createdAt: LocalDateTime?,
-) {
-
-}
+)

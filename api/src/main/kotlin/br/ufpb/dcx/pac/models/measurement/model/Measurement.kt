@@ -25,17 +25,23 @@ class Measurement(
     var readingDate: LocalDateTime?,
 
     @Column(name = "qualidade")
-    var quality: Boolean?,
+    var isProperForBathing: Boolean?,
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     var createdAt: LocalDateTime? = null,
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    var shore: Shore
+    var shore: Shore?
 ) {
     fun toResponse(): MeasurementResponse {
-        return MeasurementResponse(id, shore.id, readingDate, quality, createdAt)
+        return MeasurementResponse(
+            id = id,
+            shoreId = shore?.id,
+            readingDate = readingDate,
+            properForBathing = isProperForBathing,
+            createdAt = createdAt
+        )
     }
 
 }

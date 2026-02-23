@@ -16,6 +16,12 @@ class ShoreService(
         return shores.map { it.toResponse() }
     }
 
+    fun getShoreById(id: Long): ShoreResponse {
+        val shore = shoreRepository.findById(id)
+            .orElseThrow { RuntimeException("Shore not found") }
+        return shore.toResponse()
+    }
+
     fun createShore(request: CreateShoreRequest) {
         val shore = request.toEntity()
         shoreRepository.save(shore)

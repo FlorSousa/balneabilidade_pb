@@ -10,19 +10,26 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v1/shores")
+@RequestMapping("/v1/shores")
 class ShoreController(val shoreService: ShoreService) {
 
     @GetMapping
     fun getAllShores(pageable: Pageable): ResponseEntity<Page<ShoreResponse>> {
         val shores = shoreService.getAllShores(pageable)
         return ResponseEntity.ok(shores)
+    }
+
+    @GetMapping("/{id}")
+    fun getShoreById(@PathVariable id: Long): ResponseEntity<ShoreResponse> {
+        val shore = shoreService.getShoreById(id)
+        return ResponseEntity.ok(shore)
     }
 
     @PostMapping
